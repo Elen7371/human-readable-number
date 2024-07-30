@@ -30,23 +30,23 @@ module.exports = function toReadable(number) {
         "",
         "twenty",
         "thirty",
-        "fourty",
-        "Fifty",
+        "forty",
+        "fifty",
         "sixty",
         "seventy",
         "eighty",
         "ninety",
     ];
 
-    if (number >= 0 && number <= 19) {
-        return (result = `${findNumberUnits[number]}`);
+    if (number === 0) {
+        return (result = "zero");
+    } else if (number >= 0 && number <= 19) {
+        result = `${findNumberUnits[number]}`;
+        return result.trim();
     } else if (numString.length == 3 && numString[1] <= 1) {
         result = findNumberUnits[Number(numString[1] + numString[2])];
-        if (Number(numString[0]) > 1) {
-            return (result = `${findNumberUnits[0]} hundreeds ${result}`);
-        } else {
-            return (result = `${findNumberUnits[0]} hundreed ${result}`);
-        }
+        result = `${findNumberUnits[Number(numString[0])]} hundred ${result}`;
+        return result.trim();
     } else {
         switch (numString.length) {
             case 2:
@@ -55,16 +55,11 @@ module.exports = function toReadable(number) {
                 }`;
                 break;
             case 3:
-                if (Number(numString[0]) > 1) {
-                    result = `${findNumberUnits[numString[0]]} hundreeds`;
-                } else {
-                    result = `${findNumberUnits[numString[0]]} hundreed`;
-                }
-                result = `${result} ${findNumberTens[Number(numString[1])]} ${
-                    findNumberUnits[Number(numString[2])]
-                }`;
+                result = `${findNumberUnits[Number(numString[0])]} hundred ${
+                    findNumberTens[Number(numString[1])]
+                } ${findNumberUnits[Number(numString[2])]}`;
                 break;
         }
-        return result;
+        return result.trim();
     }
 };
